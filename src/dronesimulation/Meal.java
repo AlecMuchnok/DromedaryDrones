@@ -10,7 +10,7 @@ public class Meal {
 		foodItems = items;
 	}
 	
-	public int getWeight() {
+	public double getWeight() {
 		int weight = 0;
 		
 		for(FoodItem item : foodItems.keySet()) {

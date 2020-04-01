@@ -12,7 +12,11 @@ public class Order {
 		this.point = point;
 	}
 	
-	public int getMealWeight() {
+	public double getMealWeight() {
 		return meal.getWeight();
+	}
+	
+	public DeliveryPoint getPoint() {
+		return point;
 	}
 }

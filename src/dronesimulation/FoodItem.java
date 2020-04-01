@@ -1,13 +1,13 @@
 package dronesimulation;
 
 public class FoodItem {
-	private int weight;
+	private double weight;
 	
 	public FoodItem(int weight) {
 		this.weight = weight;
 	}
 	
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 }

@@ -1,6 +1,7 @@
 package dronesimulation;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class FIFO implements DeliveryScheme {
@@ -11,15 +12,15 @@ public class FIFO implements DeliveryScheme {
 	}
 	
 	@Override
-	public Queue<Order> fillDrone(final int weightCap) {
+	public List<DeliveryPoint> fillDrone(final double weightCap) {
 		int weight = 0;
-		Queue<Order> deliveries = new LinkedList<>();
+		List<DeliveryPoint> deliveries = new LinkedList<>();
 		
 		//Add orders until next order would make drone too heavy
 		while(weight + orders.peek().getMealWeight() < weightCap) {
 			Order order = orders.poll();
 			
-			deliveries.add(order);
+			deliveries.add(order.getPoint());
 			
 			weight += order.getMealWeight();
 		}

@@ -2,6 +2,7 @@ package dronesimulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class Simulation {
@@ -14,15 +15,23 @@ public class Simulation {
 	
 	//List of all delivery points
 	private DeliveryPoint[] points;
+	
+	//Drone
+	private Drone drone;
+	private boolean droneIsReady;
+	private int droneReadyTime; //time after drone leaves that it will be back and ready to deploy again
 		
 	private Random rand;
 	
-	public Simulation(DeliveryPoint[] points, MealProbability[] mealProbs, int[] ordersPerHour) {
+	public Simulation(DeliveryPoint[] points, MealProbability[] mealProbs, int[] ordersPerHour, Drone drone) {
 		fifo = new FIFO();
 		
 		this.points = points;
 		this.mealProbs = mealProbs;
 		this.ordersPerHour = ordersPerHour;
+		this.drone = drone;
+		
+		droneIsReady = true;
 	}
 	
 	public void run() {
@@ -53,6 +62,17 @@ public class Simulation {
 					Order order = new Order(mealProbs[mealIndex].getMeal(), point);
 					
 					scheme.addOrder(order);
+				}
+				
+				//Check if drone is ready to deploy
+				if(!droneIsReady && minute == droneReadyTime) {
+					droneIsReady = true;
+				}
+				
+				if(droneIsReady) {
+					//Fill drone and set when drone will be ready again
+					droneReadyTime = minute + drone.getFlightTime(scheme.fillDrone(drone.getCargoWeight())) + drone.getTurnAroundTime();
+					droneIsReady = false;
 				}
 			}
 		}
